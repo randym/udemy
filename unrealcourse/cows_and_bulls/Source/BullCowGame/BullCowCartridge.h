@@ -6,30 +6,28 @@
 #include "Console/Cartridge.h"
 #include "BullCowCartridge.generated.h"
 
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 {
 	GENERATED_BODY()
 
-	public:
-
+public:
 	virtual void BeginPlay() override;
-	virtual void OnInput(const FString& Input) override;
+	virtual void OnInput(const FString &Input) override;
 
 	// Your declarations go below!
-	private:
-
+private:
 	void StartNewGame();
-	void HandleGuess(const FString& UserGuess);
+	void HandleGuess(const FString &UserGuess);
 	void TryAgain() const;
 	void EndGame(const bool isWon);
 	void SelectIsogram();
 	void ShowHint() const;
 	void ShowLives() const;
-    bool IsIsogram(const FString& Word) const;
+	bool IsIsogram(const FString &Word) const;
 	bool isGameActive = false;
 
-    FString HiddenWord;
+	FString HiddenWord;
 	int32 Lives, Cows, Bulls;
 
 	const FString Intro = TEXT("Howdy, partner...\nGot a hankering for some cows and bulls?");
@@ -46,7 +44,7 @@ class BULLCOWGAME_API UBullCowCartridge : public UCartridge
 	const FString Guess = TEXT("Type your guess and press Enter");
 
 	const FString YouLose = TEXT("....shot and left for dead...");
-    const FString YouWin = TEXT("Nice one, Cowboy. Jangle those spurs!");
+	const FString YouWin = TEXT("Nice one, Cowboy. Jangle those spurs!");
 
 	const FString GameOver = TEXT("Game Over");
 };

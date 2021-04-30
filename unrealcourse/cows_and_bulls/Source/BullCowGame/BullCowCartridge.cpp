@@ -4,34 +4,32 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-    PrintLine(Intro); 
-    PrintLine(StartPrompt); 
+    PrintLine(Intro);
+    PrintLine(StartPrompt);
 }
 
-void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
+void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
     ClearScreen();
 
-    if(isGameActive == false) {
-        Input == "Y" ? UBullCowCartridge::StartNewGame() : PrintLine(StartPrompt); 
+    if (isGameActive == false)
+    {
+        Input == "Y" ? UBullCowCartridge::StartNewGame() : PrintLine(StartPrompt);
         return;
-    } 
+    }
 
     UBullCowCartridge::HandleGuess(Input);
 }
-
 
 void UBullCowCartridge::StartNewGame()
 {
     PrintLine(Instruction);
     PrintLine(Guess);
     PrintLine("");
-    PrintLine(Motivate); 
-
+    PrintLine(Motivate);
 
     UBullCowCartridge::SelectIsogram();
     Lives = HiddenWord.Len();
-
     UBullCowCartridge::ShowLives();
     isGameActive = true;
 
@@ -48,7 +46,6 @@ void UBullCowCartridge::TryAgain() const
     UBullCowCartridge::ShowHint();
 }
 
-
 void UBullCowCartridge::EndGame(const bool isWon)
 {
     isGameActive = false;
@@ -60,27 +57,32 @@ void UBullCowCartridge::EndGame(const bool isWon)
     PrintLine(StartPrompt);
 }
 
-void UBullCowCartridge::SelectIsogram() {
+void UBullCowCartridge::SelectIsogram()
+{
     HiddenWord = TEXT("surge");
 }
 
-bool UBullCowCartridge::IsIsogram(const FString& Word) const
+bool UBullCowCartridge::IsIsogram(const FString &Word) const
 {
-  for(int i = 0; i < Word.Len(); i++)
-  {
-    const char letter = Word[i];
-    for(int j = i + 1; j < Word.Len(); j++) {
-      if(Word[j] == letter) {
-          return false;
-      }
+    for (int i = 0; i < Word.Len(); i++)
+    {
+        const char letter = Word[i];
+        for (int j = i + 1; j < Word.Len(); j++)
+        {
+            if (Word[j] == letter)
+            {
+                return false;
+            }
+        }
     }
-  }
 
-  return true;
+    return true;
 }
 
-void UBullCowCartridge::HandleGuess(const FString& UserGuess) {
-    if(UserGuess.ToLower() == HiddenWord.ToLower()) {
+void UBullCowCartridge::HandleGuess(const FString &UserGuess)
+{
+    if (UserGuess.ToLower() == HiddenWord.ToLower())
+    {
         UBullCowCartridge::EndGame(true);
         return;
     }
@@ -88,7 +90,8 @@ void UBullCowCartridge::HandleGuess(const FString& UserGuess) {
     bool isSameLength = UserGuess.Len() == HiddenWord.Len();
     bool isIsogram = UBullCowCartridge::IsIsogram(UserGuess);
 
-    if(--Lives == 0) {
+    if (--Lives == 0)
+    {
         UBullCowCartridge::EndGame(false);
         return;
     }
@@ -105,4 +108,3 @@ void UBullCowCartridge::ShowLives() const
 {
     PrintLine(TEXT("You only have %i lives!"), Lives);
 }
-
