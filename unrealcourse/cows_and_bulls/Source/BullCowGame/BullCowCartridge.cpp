@@ -55,7 +55,7 @@ void UBullCowCartridge::EndGame(const bool isWon)
 
     isWon ? PrintLine(YouWin) : PrintLine(YouLose);
 
-    PrintLine(FString::Printf(TEXT("The isogram was %s"), *HiddenWord));
+    PrintLine(TEXT("The isogram was %s"), *HiddenWord);
     PrintLine("");
     PrintLine(StartPrompt);
 }
@@ -86,7 +86,7 @@ void UBullCowCartridge::HandleGuess(const FString& UserGuess) {
     }
 
     bool isSameLength = UserGuess.Len() == HiddenWord.Len();
-    bool isIsogram = UBullCowCartridge::IsIsogram(UserGuess)
+    bool isIsogram = UBullCowCartridge::IsIsogram(UserGuess);
 
     if(--Lives == 0) {
         UBullCowCartridge::EndGame(false);
@@ -98,12 +98,11 @@ void UBullCowCartridge::HandleGuess(const FString& UserGuess) {
 
 void UBullCowCartridge::ShowHint() const
 {
-    const FString Notice = FString::Printf(TEXT("(hint: %i letters long)"), HiddenWord.Len());
-    PrintLine(Notice);
+    PrintLine(TEXT("(hint: %i letters long)"), HiddenWord.Len());
 }
 
 void UBullCowCartridge::ShowLives() const
 {
-    PrintLine(FString::Printf(TEXT("You only have %i lives!"), Lives));
+    PrintLine(TEXT("You only have %i lives!"), Lives);
 }
 
