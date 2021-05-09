@@ -19,6 +19,9 @@ AProjectileBase::AProjectileBase() {
   ProjectileMovement->InitialSpeed = Velocity;
   ProjectileMovement->MaxSpeed = Velocity;
 
+  ParticleTrail = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Partile Trail"));
+  ParticleTrail->SetupAttachment(RootComponent);
+
   InitialLifeSpan = 3.0f;
 }
 
@@ -26,6 +29,8 @@ AProjectileBase::AProjectileBase() {
 void AProjectileBase::BeginPlay() {
   Super::BeginPlay();
   ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectileBase::OnHit);
+  UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation());
+  GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(HitShake);
 }
 
 void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
@@ -35,8 +40,8 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
   }
 
   UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
-
-  // TODO - Swish boom bang rock-n-roll baby!
-
+  UGameplayStatics::SpawnEmitterAtLocation(this, HitParticle, GetActorLocation());
+  UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
+  GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(HitShake);
   Destroy();
 }

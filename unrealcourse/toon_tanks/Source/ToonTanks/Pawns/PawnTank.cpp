@@ -59,10 +59,17 @@ void APawnTank::CalculateRotateInput(float Value) {
 void APawnTank::Move() { AddActorLocalOffset(MoveDirection, true); }
 void APawnTank::Rotate() { AddActorLocalRotation(RotationDirection, true); }
 
+bool APawnTank::GetIsPlayerAlive() {
+  return bIsPlayerAlive;
+}
+
 void APawnTank::HandleDestruction() {
   Super::HandleDestruction();
+  bIsPlayerAlive = false;
   Hide();
 }
 
 void APawnTank::Hide() {
+  SetActorHiddenInGame(true);
+  SetActorTickEnabled(false);
 }

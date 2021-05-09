@@ -3,6 +3,8 @@
 #include "PawnBase.h"
 #include "Components/CapsuleComponent.h"
 #include "ToonTanks/Actors/ProjectileBase.h"
+#include "ToonTanks/Components/HealthComponent.h"
+#include "Kismet/GameplayStatics.h"
 // Sets default values
 APawnBase::APawnBase() {
   // Set this pawn to call Tick() every frame.  You can turn this off to improve
@@ -20,6 +22,8 @@ APawnBase::APawnBase() {
 
   ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
   ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+  HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
 }
 
 void APawnBase::RotateTurret(FVector LookAtTarget) {
@@ -42,16 +46,12 @@ void APawnBase::Fire() {
   FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
 
   AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnLocation, SpawnRotation);
-  // So it doesn't hurt us!
+  // So we can make sure it doesnt hurt us!
   TempProjectile->SetOwner(this);
 }
 
 void APawnBase::HandleDestruction() {
-  // --- Universal functionality ---
-  // Play death effects (particle, sound, shake)
-
-  // in child classses:
-  // -- Pawn Turret - Inform GameMode Turret died -> then destroy() self;
-
-  // -- Pawn Tank - Inform GameMode Player died -> then Hide() all components && stop movement input
+  UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
+  UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+  GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(DeathShake);
 }

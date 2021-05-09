@@ -27,7 +27,6 @@ void APawnTurret::Tick(float DeltaTime) {
 }
 
 float APawnTurret::ReturnDistanceToPlayer() {
-  // TODO- check if player is dead
   if (!PlayerPawn) {
     return 0;
   }
@@ -36,19 +35,17 @@ float APawnTurret::ReturnDistanceToPlayer() {
 }
 
 void APawnTurret::CheckFireCondition() {
-  // TODO- check if player is dead
-  if (!PlayerPawn) {
+  if (!PlayerPawn || !PlayerPawn->GetIsPlayerAlive()) {
     return;
   }
 
   if (ReturnDistanceToPlayer() > FireRange) {
     return;
   }
-  // if Player == null || is Dead
-  //   - return
 
   Fire();
 }
+
 void APawnTurret::HandleDestruction() {
   Super::HandleDestruction();
   Destroy();

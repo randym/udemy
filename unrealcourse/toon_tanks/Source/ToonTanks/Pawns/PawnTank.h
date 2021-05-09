@@ -23,6 +23,7 @@ class TOONTANKS_API APawnTank : public APawnBase {
   FVector MoveDirection;
   FQuat RotationDirection;
   APlayerController* PlayerControllerRef;
+  bool bIsPlayerAlive = true;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
   float MoveSpeed = 100.f;
@@ -45,6 +46,8 @@ class TOONTANKS_API APawnTank : public APawnBase {
 
   virtual void HandleDestruction() override;
   virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+  bool GetIsPlayerAlive();
 
  protected:
   // Called when the game starts or when spawned
