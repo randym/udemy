@@ -85,4 +85,4 @@ VSCode Files
 /.vscode/*
 BuildingEscape.code-workspace
 
-
+.DS_Store
