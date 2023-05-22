@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native'
-import { WorkoutSequenceItem } from '../types/data'
-import { humanDuration } from '../utils'
-export const SequenceItem = ({ item }: { item: WorkoutSequenceItem }) => {
+import { WorkoutActivity } from '../../types/data'
+import { humanDuration } from '../../utils'
+import { PressableText } from '../styled'
+
+export const Item = ({ item, onDelete }: { item: WorkoutActivity; onDelete?: Function }) => {
   const { name, type, reps, duration } = item
 
   return (
@@ -10,6 +12,14 @@ export const SequenceItem = ({ item }: { item: WorkoutSequenceItem }) => {
       <Text>Type: {type}</Text>
       {reps && <Text>Reps: {reps}</Text>}
       <Text style={styles.duration}>Duration: {humanDuration(duration)}</Text>
+      {onDelete && (
+        <PressableText
+          style={styles.delete}
+          textStyle={styles.delete}
+          text="remove"
+          onPress={() => onDelete(item)}
+        />
+      )}
     </View>
   )
 }
@@ -20,14 +30,19 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.1)',
     backgroundColor: 'white',
     borderWidth: 1,
-    marginBottom: 10,
   },
   name: {
     fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 5,
   },
   duration: {
     fontSize: 15,
+  },
+
+  delete: {
+    color: 'red',
+    padding: 10,
+    alignSelf: 'flex-end',
+    position: 'absolute',
   },
 })

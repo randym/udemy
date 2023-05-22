@@ -1,12 +1,4 @@
-import {
-  Pressable,
-  Text,
-  StyleSheet,
-  StyleSheetProperties,
-  PressableProps,
-  StyleProp,
-  TextStyle,
-} from 'react-native'
+import { Pressable, Text, StyleSheet } from 'react-native'
 import { PressableTextProps } from '../../types/data'
 
 export const PressableText = (props: PressableTextProps) => {
@@ -20,6 +12,5 @@ export const PressableText = (props: PressableTextProps) => {
 const styles = StyleSheet.create({
   component: {
     textDecorationLine: 'underline',
-    margin: 10,
   },
 })

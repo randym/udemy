@@ -11,7 +11,7 @@ export const BottomTabNavigator = () => {
       <BottomTab.Screen
         name="Planner"
         component={PlannerScreen}
-        options={{ tabBarIcon: PlannerIcon }}
+        options={{ unmountOnBlur: true, tabBarIcon: PlannerIcon }}
       />
     </BottomTab.Navigator>
   )

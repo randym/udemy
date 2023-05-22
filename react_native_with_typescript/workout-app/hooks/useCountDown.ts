@@ -1,34 +1,42 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { RunnableStatus, WorkoutActivity } from '../types/data'
 
-export const useCountDown = (index: number) => {
-  const [countDown, setCountDown] = useState(-1)
-  const [isRunning, setIsRunning] = useState(false)
-  let intervalRef = useRef<number>()
+const { IDLE, RUNNING, STOPPED } = RunnableStatus
 
-  useEffect(() => {
-    if (isRunning && !intervalRef.current) {
-      intervalRef.current = window.setInterval(() => setCountDown((count) => count - 1), 10)
-    }
+export const useCountDown = ({ slug, duration }: WorkoutActivity, onEnd: Function) => {
+  const [currentTime, setCurrentTime] = useState(duration)
+  const [status, setStatus] = useState<RunnableStatus>(IDLE)
+  const intervalRef = useRef<number>()
 
-    return cleanup
-  }, [index, isRunning])
+  const startTimer = () => setCurrentTime((time) => time - 1)
 
   useEffect(() => {
-    countDown === 0 && cleanup()
-  }, [countDown])
-
-  const cleanup = () => {
-    if (intervalRef.current) {
-      window.clearInterval(intervalRef.current)
-      intervalRef.current = undefined
-      setIsRunning(false)
+    if (status === RUNNING && !intervalRef.current) {
+      intervalRef.current = window.setInterval(startTimer, 10)
     }
+
+    return stop
+  }, [status])
+
+  useEffect(() => setCurrentTime(duration), [slug])
+
+  useEffect(() => {
+    if (currentTime !== 0) return
+
+    stop()
+    setStatus(IDLE)
+    onEnd()
+  }, [currentTime])
+
+  const start = () => setStatus(RUNNING)
+
+  const stop = () => {
+    if (!intervalRef.current) return
+
+    window.clearInterval(intervalRef.current)
+    intervalRef.current = undefined
+    setStatus(STOPPED)
   }
 
-  const start = (count: number) => {
-    setCountDown(count)
-    setIsRunning(true)
-  }
-
-  return { countDown, isRunning, stop: cleanup, start }
+  return { start, stop, currentTime, status }
 }

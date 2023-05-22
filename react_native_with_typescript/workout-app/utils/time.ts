@@ -18,7 +18,8 @@ export const humanDuration = (seconds): string => {
   const sentence = []
   _hours && sentence.push(hoursText)
   _minutes && sentence.push(minutesText)
-  _seconds && sentence.push(connector, secondsText)
+  _minutes && _seconds && sentence.push(connector)
+  _seconds && sentence.push(secondsText)
 
   return sentence.join(' ')
 }

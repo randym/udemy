@@ -1,2 +1,6 @@
 export * from './useCachedResources'
 export * from './useWorkouts'
+export * from './useCountDown'
+export * from './useTrainingActivityQueue'
+export * from './useActivityFactory'
+export * from './useWorkoutFactory'

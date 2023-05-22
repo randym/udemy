@@ -1,17 +1,18 @@
-import { Text, View, StyleSheet, FlatList, Pressable } from 'react-native'
-import { Workout } from '../types/data'
-import { WorkoutItem } from '../components'
+import { View, StyleSheet, FlatList, Pressable } from 'react-native'
+import { Workout as WorkoutType } from '../types/data'
+import { Workout } from '../components'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { useWorkouts } from '../hooks'
+import { ThemedText } from '../components/styled/ThemedText'
 
 export const HomeScreen = ({ navigation }: NativeStackHeaderProps) => {
   const workouts = useWorkouts()
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>New Workouts</Text>
+      <ThemedText style={styles.header}>Your Workouts</ThemedText>
       <FlatList
-        data={workouts as Workout[]}
+        data={workouts as WorkoutType[]}
         keyExtractor={(item) => item.slug}
         renderItem={({ item }) => {
           return (
@@ -20,7 +21,7 @@ export const HomeScreen = ({ navigation }: NativeStackHeaderProps) => {
                 navigation.navigate('WorkoutDetail', { slug: item.slug })
               }}
             >
-              <WorkoutItem {...item} />
+              <Workout {...item} />
             </Pressable>
           )
         }}
@@ -32,7 +33,7 @@ export const HomeScreen = ({ navigation }: NativeStackHeaderProps) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    flex: 1,
+    // flex: 1,
   },
   header: {
     fontSize: 20,

@@ -11,7 +11,7 @@ export const RouteNavigator = () => {
       <Stack.Screen
         name="WorkoutDetail"
         component={WorkoutDetailScreen}
-        options={{ title: 'Workout Detail' }}
+        options={{ title: 'Workout Detail', headerBackTitle: 'Back' }}
       />
     </Stack.Navigator>
   )

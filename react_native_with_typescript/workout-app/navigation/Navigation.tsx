@@ -1,9 +1,11 @@
-import { NavigationContainer } from '@react-navigation/native'
+import { ColorSchemeName } from 'react-native'
+import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native'
 import { RouteNavigator } from './RouteNavigator'
 
-export const Navigation = () => {
+export const Navigation = ({ colorScheme }: { colorScheme: ColorSchemeName }) => {
+  console.log(colorScheme)
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
       <RouteNavigator />
     </NavigationContainer>
   )

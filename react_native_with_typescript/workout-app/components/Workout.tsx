@@ -1,17 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native'
-import { Workout, WorkoutItemProps } from '../types/data'
+import { Workout as WorkoutProps } from '../types/data'
 import { humanDuration } from '../utils'
-import { ReactNode } from 'react'
+import { TrainingPreview } from './preview'
 
-export const WorkoutItem = (props: WorkoutItemProps) => {
-  const { name, difficulty, duration, children } = props
-
+export const Workout = ({ name, difficulty, duration, sequence }: WorkoutProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.name}>Name: {name}</Text>
       <Text style={styles.difficulty}>Difficulty: {difficulty}</Text>
       <Text style={styles.duration}>Duration: {humanDuration(duration)}</Text>
-      {children}
+      <TrainingPreview sequence={sequence} />
     </View>
   )
 }

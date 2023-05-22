@@ -24,3 +24,8 @@ export async function getWorkoutBySlug({ slug }: Slug): Promise<Workout> {
 export const clearWorkouts = async () => {
   await removeItem('workout-data')
 }
+
+export const storeWorkout = async (workout: Workout) => {
+  const workouts = await getWorkouts()
+  await storeData('workout-data', [...workouts, workout])
+}
